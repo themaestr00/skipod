@@ -4,14 +4,14 @@ DIR=$(PWD)/build
 
 all: var714 var714_parallel var714_parallel_task
 
-var714: $(PWD)/src/var714_$(N)_$(OPTIMIZE).c
-	$(CC) $(FLAGS) -o $(DIR)/$@ $<
+var714: $(PWD)/src/var714.c
+	$(CC) $(FLAGS) -o $(DIR)/$@_$(N)_$(OPTIMIZE) $<
 
-var714_parallel: $(PWD)/src/var714_parallel_$(N)_$(OPTIMIZE).c
-	$(CC) $(FLAGS) -o $(DIR)/$@ $<
+var714_parallel: $(PWD)/src/var714_parallel.c
+	$(CC) $(FLAGS) -o $(DIR)/$@_$(N)_$(OPTIMIZE) $<
 
-var714_parallel_task: $(PWD)/src/var714_parallel_task_$(N)_$(OPTIMIZE).c
-	$(CC) $(FLAGS) -o $(DIR)/$@ $<
+var714_parallel_task: $(PWD)/src/var714_parallel_task.c
+	$(CC) $(FLAGS) -o $(DIR)/$@_$(N)_$(OPTIMIZE) $<
 
 clean:
 	rm -f $(DIR)/*
