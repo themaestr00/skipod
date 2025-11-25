@@ -31,12 +31,12 @@ if __name__ == "__main__":
         raise ValueError("Number of threads must be a positive integer.")
     num_threads = args.num_threads
     tasks = ["var714", "var714_parallel", "var714_parallel_task"]
-    subprocess.run(["make", "clean"])
-    subprocess.run(["make"], env={"OPTIMIZE": args.optimize})
+    subprocess.run(["make", "clean"], env={"PWD": str(pathlib.Path.cwd())})
+    subprocess.run(["make"], env={"OPTIMIZE": args.optimize, "PWD": str(pathlib.Path.cwd())})
     for task in tasks:
         script_content = LSF_SCRIPT.format(M=num_threads // 8 + 1, N=num_threads, name=task)
         script_path = pathlib.Path(f"{task}.lsf")
         script_path.write_text(script_content)
-        subprocess.run(["bsub", "<", str(script_path)])
+        subprocess.run(["bsub", "<", str(script_path)], env={"PWD": str(pathlib.Path.cwd())})
         script_path.unlink()
     print(f"Submitted tasks with {num_threads} threads each.")
