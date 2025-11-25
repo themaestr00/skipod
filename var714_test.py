@@ -13,13 +13,18 @@ OMP_NUM_THREADS={N} ./{name}"""
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argumen(
+    parser.add_argument(
         "-N",
         "--num-threads",
         type=int,
         default=4,
         help="Number of threads to use for the test",
-        required=True
+    )
+    parser.add_argument(
+        "--optimize",
+        type=str,
+        default="-O0",
+        help="Optimization level for the compiler (e.g., -O0, -O1, -O2, -O3)",
     )
     args = parser.parse_args()
     if args.num_threads <= 0:
@@ -27,7 +32,7 @@ if __name__ == "__main__":
     num_threads = args.num_threads
     tasks = ["var714", "var714_parallel", "var714_parallel_task"]
     subprocess.run(["make", "clean"])
-    subprocess.run(["make"])
+    subprocess.run(["make"], env={"OPTIMIZE": args.optimize})
     for task in tasks:
         script_content = LSF_SCRIPT.format(M=num_threads // 8 + 1, N=num_threads, name=task)
         script_path = pathlib.Path(f"{task}.lsf")
