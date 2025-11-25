@@ -1,6 +1,6 @@
 CC=gcc
 FLAGS=-fopenmp $(OPTIMIZE)
-DIR=$(PWD)/build
+DIR=build
 
 all: var714 var714_parallel var714_parallel_task
 
