@@ -23,8 +23,8 @@ if __name__ == "__main__":
     parser.add_argument(
         "--optimize",
         type=str,
-        default="-O0",
-        help="Optimization level for the compiler (e.g., -O0, -O1, -O2, -O3)",
+        default="O0",
+        help="Optimization level for the compiler (e.g., O0, O1, O2, O3)",
     )
     args = parser.parse_args()
     if args.num_threads <= 0:
@@ -32,9 +32,9 @@ if __name__ == "__main__":
     num_threads = args.num_threads
     tasks = ["var714", "var714_parallel", "var714_parallel_task"]
     subprocess.run(["make", "clean"])
-    subprocess.run(["make", f"OPTIMIZE={args.optimize}"])
+    subprocess.run(["make", f"OPTIMIZE=-{args.optimize}"])
     for task in tasks:
-        script_content = LSF_SCRIPT.format(M=num_threads // 8 + 1, N=num_threads, name=task, optimize=args.optimize.replace("-", ""))
+        script_content = LSF_SCRIPT.format(M=num_threads // 8 + 1, N=num_threads, name=task, optimize=args.optimize)
         script_path = pathlib.Path(f"{task}.lsf")
         script_path.write_text(script_content)
         subprocess.run(["bsub"], input=script_path.read_bytes())
