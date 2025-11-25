@@ -34,7 +34,7 @@ if __name__ == "__main__":
     subprocess.run(["make", "clean"])
     subprocess.run(["make", f"OPTIMIZE={args.optimize}", f"N={num_threads}"])
     for task in tasks:
-        script_content = LSF_SCRIPT.format(M=num_threads // 8 + 1, N=num_threads, name=f"{task}_{num_threads}_{optimize}", optimize=args.optimize)
+        script_content = LSF_SCRIPT.format(M=num_threads // 8 + 1, N=num_threads, name=f"{task}_{num_threads}_{args.optimize}", optimize=args.optimize)
         script_path = pathlib.Path(f"{task}.lsf")
         script_path.write_text(script_content)
         subprocess.run(["bsub"], input=script_path.read_bytes())
