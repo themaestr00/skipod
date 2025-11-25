@@ -5,8 +5,8 @@ import subprocess
 
 LSF_SCRIPT = """#BSUB -n {M}
 #BSUB -W 00:15
-#BSUB -o "{name}.out"
-#BSUB -e "{name}.err"
+#BSUB -o "outputs/{name}.out"
+#BSUB -e "errors/{name}.err"
 #BSUB -R "span[hosts=1]"
 OMP_NUM_THREADS={N} build/{name}"""
 
