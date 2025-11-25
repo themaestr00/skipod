@@ -4,7 +4,7 @@ import subprocess
 
 
 LSF_SCRIPT = """#BSUB -n {M}
-#BSUB -W 00:15
+#BSUB -W 01:30
 #BSUB -o "outputs/{name}_{N}_{optimize}.out"
 #BSUB -e "errors/{name}_{N}_{optimize}.err"
 #BSUB -R "span[hosts=1]"
@@ -32,9 +32,9 @@ if __name__ == "__main__":
     num_threads = args.num_threads
     tasks = ["var714", "var714_parallel", "var714_parallel_task"]
     subprocess.run(["make", "clean"])
-    subprocess.run(["make", f"OPTIMIZE=-{args.optimize}"])
+    subprocess.run(["make", f"OPTIMIZE={args.optimize}", f"N={num_threads}"])
     for task in tasks:
-        script_content = LSF_SCRIPT.format(M=num_threads // 8 + 1, N=num_threads, name=task, optimize=args.optimize)
+        script_content = LSF_SCRIPT.format(M=num_threads // 8 + 1, N=num_threads, name=f"{task}_{num_threads}_{optimize}", optimize=args.optimize)
         script_path = pathlib.Path(f"{task}.lsf")
         script_path.write_text(script_content)
         subprocess.run(["bsub"], input=script_path.read_bytes())
