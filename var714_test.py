@@ -8,7 +8,7 @@ LSF_SCRIPT = """#BSUB -n {M}
 #BSUB -o "{name}.out"
 #BSUB -e "{name}.err"
 #BSUB -R "span[hosts=1]"
-OMP_NUM_THREADS={N} ./{name}"""
+OMP_NUM_THREADS={N} build/{name}"""
 
 
 if __name__ == "__main__":
@@ -37,6 +37,6 @@ if __name__ == "__main__":
         script_content = LSF_SCRIPT.format(M=num_threads // 8 + 1, N=num_threads, name=task)
         script_path = pathlib.Path(f"{task}.lsf")
         script_path.write_text(script_content)
-        subprocess.run(["bsub", "<", str(script_path)])
+        subprocess.run(["bsub"], input=script_path.read_bytes())
         script_path.unlink()
     print(f"Submitted tasks with {num_threads} threads each.")
