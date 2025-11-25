@@ -4,13 +4,13 @@ DIR=$(PWD)/build
 
 all: var714 var714_parallel var714_parallel_task
 
-var714: var714.c
+var714: src/var714.c
 	$(CC) $(FLAGS) -o $(DIR)/$@ $<
 
-var714_parallel: var714_parallel.c
+var714_parallel: src/var714_parallel.c
 	$(CC) $(FLAGS) -o $(DIR)/$@ $<
 
-var714_parallel_task: var714_parallel_task.c
+var714_parallel_task: src/var714_parallel_task.c
 	$(CC) $(FLAGS) -o $(DIR)/$@ $<
 
 clean:
