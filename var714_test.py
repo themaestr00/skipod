@@ -31,7 +31,6 @@ if __name__ == "__main__":
         raise ValueError("Number of threads must be a positive integer.")
     num_threads = args.num_threads
     tasks = ["var714", "var714_parallel", "var714_parallel_task"]
-    subprocess.run(["make", "clean"])
     subprocess.run(["make", f"OPTIMIZE={args.optimize}", f"N={num_threads}"])
     for task in tasks:
         script_content = LSF_SCRIPT.format(M=num_threads // 8 + 1, N=num_threads, name=f"{task}_{num_threads}_{args.optimize}", optimize=args.optimize)
